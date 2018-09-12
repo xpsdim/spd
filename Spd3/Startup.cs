@@ -1,9 +1,16 @@
+using AutoMapper;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Spd.Data;
+using Spd.Data.Dicts;
+using Spd.Helpers;
+using Spd.Models.Entities;
 
 namespace Spd3
 {
@@ -19,7 +26,19 @@ namespace Spd3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+			services.AddAutoMapper();
+
+			services.AddTransient<IDataSeeder<Kved>, KvedSeeder>();
+			services.AddTransient<IWebRootPathMapper, WebRootPathMapper>();
+
+			services.AddMvc()
+				.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
