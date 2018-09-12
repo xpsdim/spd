@@ -1,16 +1,20 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Spd.Data;
 using Spd.Data.Dicts;
 using Spd.Helpers;
 using Spd.Models.Entities;
+using System.Text;
 
 namespace Spd3
 {
@@ -28,6 +32,34 @@ namespace Spd3
         {
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Configuration["Jwt:Issuer"],
+						ValidAudience = Configuration["Jwt:Issuer"],
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+					};
+				});
+
+			services.AddIdentity<TaxAccountant, IdentityRole>(options =>
+			{
+				options.User.RequireUniqueEmail = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequireDigit = false;
+				options.Password.RequiredLength = 8;
+			})
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders();
+
+
 
 			services.AddAutoMapper();
 
