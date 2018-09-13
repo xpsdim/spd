@@ -23,6 +23,11 @@
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
+                  <a [routerLink]='["/login"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon glyphicon-log-in'></span> Login
+                  </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/profile"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon glyphicon-user'></span> User profile
                     </a>
