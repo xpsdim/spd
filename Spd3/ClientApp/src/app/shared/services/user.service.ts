@@ -9,11 +9,8 @@ import { BaseService } from "./base.service";
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx';
 
-// Add the RxJS Observable operators we need in this app.
-//import '../../rxjs-operators';
 
 @Injectable()
-
 export class UserService extends BaseService {
 
   baseUrl: string = '';
@@ -60,7 +57,12 @@ export class UserService extends BaseService {
         this._authNavStatusSource.next(true);
         return true;
       })
-      .catch(this.handleError);
+      .catch(e => {
+        if (e.status === 401) {
+          return Observable.throw("User '" + userName + "' not found.");
+        }
+        return this.handleError
+      });
   }
 
   logout() {
