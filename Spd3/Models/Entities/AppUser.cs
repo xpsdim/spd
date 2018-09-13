@@ -2,7 +2,7 @@
 
 namespace Spd.Models.Entities
 {
-    public class TaxAccountant : IdentityUser
+    public class AppUser : IdentityUser
 	{
 		public string RealName { get; set; }		
 		public long? FacebookId { get; set; }

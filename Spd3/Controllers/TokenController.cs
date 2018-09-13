@@ -15,9 +15,9 @@ namespace Spd.Controllers
 	[Route("api/[controller]")]
 	public class TokenController : Controller
 	{
-		private readonly UserManager<TaxAccountant> _userManager;
+		private readonly UserManager<AppUser> _userManager;
 		private readonly IConfiguration _config;
-		public TokenController(IConfiguration config, UserManager<TaxAccountant> userManager)
+		public TokenController(IConfiguration config, UserManager<AppUser> userManager)
 		{
 			_config = config;
 			_userManager = userManager;

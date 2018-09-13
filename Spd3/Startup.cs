@@ -48,7 +48,7 @@ namespace Spd3
 					};
 				});
 
-			services.AddIdentity<TaxAccountant, IdentityRole>(options =>
+			services.AddIdentity<AppUser, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = false;
 				options.Password.RequireNonAlphanumeric = false;

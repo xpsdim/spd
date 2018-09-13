@@ -5,7 +5,7 @@ using Spd.Data.Dicts;
 
 namespace Spd.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<TaxAccountant>
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
 	    private readonly IDataSeeder<Kved> _kvedSeeder;
 		public ApplicationDbContext(DbContextOptions options, IDataSeeder<Kved> kvedSeeder)
@@ -26,7 +26,7 @@ namespace Spd.Data
 		{
 			//application user table
 			base.OnModelCreating(builder);
-			builder.Entity<TaxAccountant>()
+			builder.Entity<AppUser>()
 				.Property(b => b.RealName).HasMaxLength(255);
 
 			//kved

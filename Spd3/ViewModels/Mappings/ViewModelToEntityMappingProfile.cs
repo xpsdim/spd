@@ -7,9 +7,9 @@ namespace Spd.ViewModels.Mappings
 	{
 		public ViewModelToEntityMappingProfile()
 		{
-			CreateMap<RegistrationViewModel, TaxAccountant>()
+			CreateMap<RegistrationViewModel, AppUser>()
 				.ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email))
-				.ForMember(au => au.RealName, map => map.MapFrom(vm => $"{vm.FirstName} {vm.LastName}"));
+				.ForMember(au => au.RealName, map => map.MapFrom(vm => vm.RealName));
 		}
 	}
 }
