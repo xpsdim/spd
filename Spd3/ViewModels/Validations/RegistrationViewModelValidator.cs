@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Spd.ViewModels.Validations
+namespace Spd3.ViewModels.Validations
 {
     public class RegistrationViewModelValidator : AbstractValidator<RegistrationViewModel>
 	{

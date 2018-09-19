@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Text;
-using Spd.Models.Entities;
+using Spd3.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Spd.Controllers
@@ -41,8 +41,8 @@ namespace Spd.Controllers
 
 		private string BuildToken(UserModel user)
 		{
-
 			var claims = new[] {
+				new Claim(JwtRegisteredClaimNames.NameId, user.UserId),
 				new Claim(JwtRegisteredClaimNames.Sub, user.Name),
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),				
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -69,11 +69,12 @@ namespace Spd.Controllers
 			// get the user to verifty
 			var userToVerify = await _userManager.FindByNameAsync(userName);
 
-						// check the credentials
+			// check the credentials
 			if (userToVerify != null && await _userManager.CheckPasswordAsync(userToVerify, password))
 			{
-				return await Task.FromResult<UserModel>(new UserModel() {
+				return await Task.FromResult(new UserModel() {
 					Email = userToVerify.Email,
+					UserId = userToVerify.Id,
 					Name = userToVerify.RealName
 				});
 			}
@@ -92,6 +93,7 @@ namespace Spd.Controllers
 
 	public class UserModel
 	{
+		public string UserId { get; set; }
 		public string Name { get; set; }
 		public string Email { get; set; }		
 	}

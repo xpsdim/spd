@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Spd.Models.Entities
+namespace Spd3.Models.Entities
 {
     public class AppUser : IdentityUser
 	{

@@ -1,4 +1,4 @@
-﻿namespace Spd.ViewModels
+﻿namespace Spd3.ViewModels
 {
     public class RegistrationViewModel
     {

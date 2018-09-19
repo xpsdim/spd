@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Spd.Models.Entities;
+using Spd3.Models.Entities;
 
-namespace Spd.ViewModels.Mappings
+namespace Spd3.ViewModels.Mappings
 {
     public class ViewModelToEntityMappingProfile : Profile
 	{

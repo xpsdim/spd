@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Spd.Models.Entities;
+using Spd3.Models.Entities;
 using IMapper = AutoMapper.IMapper;
-using Spd.Data.Dicts.DictSourceModels;
+using Spd3.Data.Dicts.DictSourceModels;
 using Spd.Helpers;
 
-namespace Spd.Data.Dicts
+namespace Spd3.Data.Dicts
 {
 	public class KvedSeeder : IDataSeeder<Kved>
 	{		

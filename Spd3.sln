@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spd3", "Spd3\Spd3.csproj", "{2500149E-4791-4B5B-8767-24AFBD9E1670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spd3", "Spd3\Spd3.csproj", "{2500149E-4791-4B5B-8767-24AFBD9E1670}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spd.Test", "Spd3.Test\Spd.Test.csproj", "{6FAAF066-37D3-430A-B8C9-0E3A53D8116D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2500149E-4791-4B5B-8767-24AFBD9E1670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2500149E-4791-4B5B-8767-24AFBD9E1670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2500149E-4791-4B5B-8767-24AFBD9E1670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FAAF066-37D3-430A-B8C9-0E3A53D8116D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FAAF066-37D3-430A-B8C9-0E3A53D8116D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FAAF066-37D3-430A-B8C9-0E3A53D8116D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FAAF066-37D3-430A-B8C9-0E3A53D8116D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

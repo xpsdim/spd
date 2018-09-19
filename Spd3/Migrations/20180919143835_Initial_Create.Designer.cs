@@ -10,14 +10,14 @@ using Spd.Data;
 namespace Spd3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180912105720_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20180919143835_Initial_Create")]
+    partial class Initial_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -131,25 +131,7 @@ namespace Spd3.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.Kved", b =>
-                {
-                    b.Property<string>("Code")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("ParentCode")
-                        .HasMaxLength(10);
-
-                    b.HasKey("Code");
-
-                    b.HasIndex("ParentCode");
-
-                    b.ToTable("dictKved");
-                });
-
-            modelBuilder.Entity("Spd.Models.Entities.TaxAccountant", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -207,25 +189,164 @@ namespace Spd3.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.TaxPerson", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.Bank", b =>
+                {
+                    b.Property<string>("Mfo")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(6);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Mfo");
+
+                    b.ToTable("Banks");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.Kved", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10);
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ParentCode")
+                        .HasMaxLength(10);
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("ParentCode");
+
+                    b.ToTable("Kveds");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.Region", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Gender");
+                    b.Property<string>("Name")
+                        .HasMaxLength(64);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regions");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account");
+
+                    b.Property<int>("AccountTypeId");
+
+                    b.Property<string>("BankName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Edrpou")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Mfo")
+                        .HasMaxLength(6);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountTypeId");
+
+                    b.ToTable("TaxAccounts");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxAccountType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaxAccountType");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxInspection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("RegionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("TaxInspections");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPerson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(64);
 
                     b.Property<string>("IdentityId");
 
-                    b.Property<string>("Locale");
+                    b.Property<string>("Street")
+                        .HasMaxLength(64);
 
-                    b.Property<string>("Location");
+                    b.Property<string>("TaxCode")
+                        .HasMaxLength(16);
+
+                    b.Property<int>("TaxInspectionId");
+
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(5);
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityId");
 
+                    b.HasIndex("TaxInspectionId");
+
                     b.ToTable("TaxPersons");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPersonKved", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("KvedCode")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("KvedName");
+
+                    b.Property<int>("TaxPersonId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxPersonId");
+
+                    b.ToTable("TaxPersonKveds");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -238,7 +359,7 @@ namespace Spd3.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -246,7 +367,7 @@ namespace Spd3.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -259,7 +380,7 @@ namespace Spd3.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -267,24 +388,53 @@ namespace Spd3.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.Kved", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.Kved", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.Kved", "ParentKved")
+                    b.HasOne("Spd3.Models.Entities.Kved", "ParentKved")
                         .WithMany("ChildrenKvedList")
                         .HasForeignKey("ParentCode");
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.TaxPerson", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.TaxAccount", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant", "Identity")
+                    b.HasOne("Spd3.Models.Entities.TaxAccountType", "TaxAccountType")
+                        .WithMany("TaxAccounts")
+                        .HasForeignKey("AccountTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxInspection", b =>
+                {
+                    b.HasOne("Spd3.Models.Entities.Region", "Region")
+                        .WithMany("TaxInspections")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPerson", b =>
+                {
+                    b.HasOne("Spd3.Models.Entities.AppUser", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId");
+
+                    b.HasOne("Spd3.Models.Entities.TaxInspection", "TaxInspection")
+                        .WithMany("TaxPersons")
+                        .HasForeignKey("TaxInspectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPersonKved", b =>
+                {
+                    b.HasOne("Spd3.Models.Entities.TaxPerson", "TaxPerson")
+                        .WithMany("TaxPersonKveds")
+                        .HasForeignKey("TaxPersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -10,14 +10,14 @@ using Spd.Data;
 namespace Spd3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180912105902_KvedDictionarySeeding")]
-    partial class KvedDictionarySeeding
+    [Migration("20180919145447_Seeding_Kved_Bank_Region")]
+    partial class Seeding_Kved_Bank_Region
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -131,7 +131,392 @@ namespace Spd3.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.Kved", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<long?>("FacebookId");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("PictureUrl");
+
+                    b.Property<string>("RealName")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.Bank", b =>
+                {
+                    b.Property<string>("Mfo")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(6);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Mfo");
+
+                    b.ToTable("Banks");
+
+                    b.HasData(
+                        new { Mfo = "300001", Name = "Національний банк України" },
+                        new { Mfo = "322313", Name = "АТ \"Укрексімбанк\"" },
+                        new { Mfo = "300012", Name = "ПАТ \"Промінвестбанк\"" },
+                        new { Mfo = "300023", Name = "АТ \"УКРСОЦБАНК\"" },
+                        new { Mfo = "300465", Name = "АТ \"ОЩАДБАНК\"" },
+                        new { Mfo = "300056", Name = "ПАТ \"ЛЕГБАНК\"" },
+                        new { Mfo = "300142", Name = "ПАТ \"УКРІНБАНК\"" },
+                        new { Mfo = "300175", Name = "ПУАТ \"ФІДОБАНК\"" },
+                        new { Mfo = "320735", Name = "ПАТ \"Інтеграл-банк\"" },
+                        new { Mfo = "300272", Name = "ПАТ \"ЕНЕРГОБАНК\"" },
+                        new { Mfo = "300216", Name = "ПАТ КБ \"ІНТЕРБАНК\"" },
+                        new { Mfo = "300335", Name = "АТ \"Райффайзен Банк Аваль\"" },
+                        new { Mfo = "300249", Name = "АТ \"БРОКБІЗНЕСБАНК\"" },
+                        new { Mfo = "321767", Name = "АТ \"ВТБ БАНК\"" },
+                        new { Mfo = "320940", Name = "АТ \"АЛЬТБАНК\"" },
+                        new { Mfo = "305299", Name = "АТ КБ \"ПРИВАТБАНК\"" },
+                        new { Mfo = "305062", Name = "АКБ \"НОВИЙ\"" },
+                        new { Mfo = "353100", Name = "Полікомбанк" },
+                        new { Mfo = "334594", Name = "ПАТ \"ПРОФІН БАНК\"" },
+                        new { Mfo = "334828", Name = "ПАТ \"АКБ \"КАПІТАЛ\"" },
+                        new { Mfo = "321712", Name = "АТ \"РОДОВІД БАНК\"" },
+                        new { Mfo = "322294", Name = "АТ \"КБ \"ЕКСПОБАНК\"" },
+                        new { Mfo = "334840", Name = "ПpАТ \"БАНК ФАМІЛЬНИЙ\"" },
+                        new { Mfo = "380537", Name = "ПАТ \"ВіЕйБі Банк\"" },
+                        new { Mfo = "300788", Name = "АТ \"БАНК \"ТАВРИКА\"" },
+                        new { Mfo = "325268", Name = "ПАТ АКБ \"Львів\"" },
+                        new { Mfo = "325990", Name = "ПАТ \"ОКСІ БАНК\"" },
+                        new { Mfo = "307770", Name = "АТ \"А - БАНК\"" },
+                        new { Mfo = "325213", Name = "ПАТ \"ВіЕс Банк\"" },
+                        new { Mfo = "351663", Name = "АТ БАНК\"МЕРКУРІЙ\"У М.ХАРКІВ" },
+                        new { Mfo = "328209", Name = "Акціонерний банк\"Південний\"" },
+                        new { Mfo = "328180", Name = "АБ \"ПОРТО-ФРАНКО\"" },
+                        new { Mfo = "328210", Name = "ПАТ \"КБ \"Інвестбанк\"" },
+                        new { Mfo = "331489", Name = "АТ \"Полтава-банк\"" },
+                        new { Mfo = "334851", Name = "ПАT \"ПУМБ\"" },
+                        new { Mfo = "328685", Name = "ПАТ \"ФІНБАНК\"" },
+                        new { Mfo = "351607", Name = "АТ \"БАНК \"ГРАНТ\"" },
+                        new { Mfo = "351254", Name = "АТ \"СКАЙ БАНК\"" },
+                        new { Mfo = "351005", Name = "АТ \"УкрСиббанк\"" },
+                        new { Mfo = "312248", Name = "АТ \"КОМІНВЕСТБАНК\"" },
+                        new { Mfo = "380838", Name = "АТ \"ПРАВЕКС БАНК\"" },
+                        new { Mfo = "328599", Name = "АТ \"ФІНРОСТБАНК\"" },
+                        new { Mfo = "322432", Name = "АТ \"НК БАНК\"" },
+                        new { Mfo = "322335", Name = "АТ АКБ \"АРКАДА\"" },
+                        new { Mfo = "331100", Name = "ПАТ \"АКБ Банк\"" },
+                        new { Mfo = "322465", Name = "ПАТ Банк \"Контракт\"" },
+                        new { Mfo = "313582", Name = "АТ \"МетаБанк\"" },
+                        new { Mfo = "351931", Name = "АТ \"БАНК ЗОЛОТІ ВОРОТА\"" },
+                        new { Mfo = "322625", Name = "АБ \"УКООПСПІЛКА\"" },
+                        new { Mfo = "380764", Name = "ПАТ \"КБ \"Надра\"" },
+                        new { Mfo = "300379", Name = "ФІЛІЯ\"КІБ\"ПАТ\"КРЕДІ АГРІКОЛЬ БАНК\"КИЇВ" },
+                        new { Mfo = "380292", Name = "ПАТ \"КСГ БАНК\"" },
+                        new { Mfo = "305880", Name = "ПАТ \"КБ \"ЗЕМЕЛЬНИЙ КАПІТАЛ\"" },
+                        new { Mfo = "328384", Name = "АТ \"ІМЕКСБАНК\"" },
+                        new { Mfo = "304706", Name = "АТ \"СП БАНК\"" },
+                        new { Mfo = "320702", Name = "\"БАНК НАЦІОНАЛЬНИЙ КРЕДИТ\"" },
+                        new { Mfo = "320843", Name = "ПАТ \"УКРГАЗПРОМБАНК\"" },
+                        new { Mfo = "380601", Name = "ПАТ \"ТЕРРА БАНК\"" },
+                        new { Mfo = "300647", Name = "АБ \"КЛІРИНГОВИЙ ДІМ\"" },
+                        new { Mfo = "300506", Name = "\"ПЕРШИЙ ІНВЕСТИЦІЙНИЙ БАНК\"" },
+                        new { Mfo = "300539", Name = "ПАТ \"ІНГ Банк Україна\"" },
+                        new { Mfo = "300528", Name = "АТ \"ОТП БАНК\"" },
+                        new { Mfo = "300584", Name = "АТ \"СІТІБАНК\"" },
+                        new { Mfo = "320984", Name = "АТ \"ПРОКРЕДИТ БАНК\"" },
+                        new { Mfo = "320627", Name = "АТ \"СБЕРБАНК\"" },
+                        new { Mfo = "300669", Name = "ПАТ \"ПРАЙМ-БАНК\"" },
+                        new { Mfo = "300852", Name = "ПАТ \"КБ \"АКТИВ - БАНК\"" },
+                        new { Mfo = "300885", Name = "АТ \"АРТЕМ-БАНК\"" },
+                        new { Mfo = "300904", Name = "АТ \"ФОРТУНА-БАНК\"" },
+                        new { Mfo = "307123", Name = "ПАТ \"БАНК ВОСТОК\"" },
+                        new { Mfo = "335902", Name = "ПАТ \"УНІКОМБАНК\"" },
+                        new { Mfo = "820172", Name = "ДЕРЖКАЗНАЧЕЙСЬКА СЛУЖБА УКРАЇНИ,М.КИЇВ" },
+                        new { Mfo = "300926", Name = "ПрАТ \"УФГ\", КИЇВ" },
+                        new { Mfo = "300164", Name = "ПАТ \"ОМЕГА БАНК\"" },
+                        new { Mfo = "300131", Name = "АТ\"БАНК\"ФІНАНСИ ТА КРЕДИТ\"" },
+                        new { Mfo = "300119", Name = "АТ \"БАНК АЛЬЯНС\"" },
+                        new { Mfo = "300205", Name = "ПАТ \"УПБ\"" },
+                        new { Mfo = "335946", Name = "ПАТ \"КБ \"ПІВДЕНКОМБАНК\"" },
+                        new { Mfo = "305987", Name = "ПАТ \"ЮСБ БАНК\"" },
+                        new { Mfo = "334992", Name = "ПАТ \"КБ \"ПРОМЕКОНОМБАНК\"" },
+                        new { Mfo = "339500", Name = "АТ \"ТАСКОМБАНК\"" },
+                        new { Mfo = "321477", Name = "ПАТ \"СТАРОКИЇВСЬКИЙ БАНК\"" },
+                        new { Mfo = "325365", Name = "ПАТ \"КРЕДОБАНК\"" },
+                        new { Mfo = "313849", Name = "АКБ \"ІНДУСТРІАЛБАНК\"" },
+                        new { Mfo = "328168", Name = "ПАТ \"МТБ БАНК\"" },
+                        new { Mfo = "351588", Name = "ПАТ \"РЕАЛ БАНК\"" },
+                        new { Mfo = "351629", Name = "ПАТ \"МЕГАБАНК\", Харків" },
+                        new { Mfo = "322324", Name = "ПАТ \"ГРІН БАНК\"" },
+                        new { Mfo = "321723", Name = "АТ \"БТА Банк\"" },
+                        new { Mfo = "353489", Name = "АТ \"АСВІО БАНК\"" },
+                        new { Mfo = "353575", Name = "Банк \"Демарк\"" },
+                        new { Mfo = "336310", Name = "ПАТ \"Ідея Банк\"" },
+                        new { Mfo = "320371", Name = "ПАТ\"БАНК \"УКРАЇН.КАПІТАЛ\"" },
+                        new { Mfo = "300896", Name = "ПАТ \"ФІНАНС БАНК\"" },
+                        new { Mfo = "300614", Name = "ПАТ \"КРЕДІ АГРІКОЛЬ БАНК\"" },
+                        new { Mfo = "334969", Name = "ПАТ \"УКРБІЗНЕСБАНК\"" },
+                        new { Mfo = "304988", Name = "ПАТ \"УКРКОМУНБАНК\"" },
+                        new { Mfo = "300670", Name = "ПАТ \"КБ \"ХРЕЩАТИК\"" },
+                        new { Mfo = "322498", Name = "ПАТ \"АКБ \"КИЇВ\"" },
+                        new { Mfo = "328760", Name = "АТ \"Місто Банк\"" },
+                        new { Mfo = "397133", Name = "ПАТ АБ \"СТОЛИЧНИЙ\"" },
+                        new { Mfo = "300498", Name = "БАНК НАЦІОНАЛЬНІ ІНВЕСТИЦІЇ" },
+                        new { Mfo = "320995", Name = "ПАТ \"БГ БАНК\"" },
+                        new { Mfo = "322539", Name = "АТ \"ЮНЕКС БАНК\" м. Київ" },
+                        new { Mfo = "320854", Name = "ПАТ \"ДІАМАНТБАНК\"" },
+                        new { Mfo = "322540", Name = "АТ \"КІБ\"" },
+                        new { Mfo = "322302", Name = "АТ \"АЙБОКС БАНК\"" },
+                        new { Mfo = "322001", Name = "ПАТ \"УНІВЕРСАЛ БАНК\"" },
+                        new { Mfo = "322948", Name = "ПАТ \"БАНК ФОРУМ\"" },
+                        new { Mfo = "300658", Name = "АТ \"ПІРЕУС БАНК МКБ\"" },
+                        new { Mfo = "322799", Name = "АТ \"БАНК ВЕЛЕС\"" },
+                        new { Mfo = "322830", Name = "АТ КБ \"ТК КРЕДИТ\"" },
+                        new { Mfo = "305749", Name = "АТ \"БАНК КРЕДИТ ДНІПРО\"" },
+                        new { Mfo = "300346", Name = "АТ \"АЛЬФА-БАНК\" У М.КИЄВІ" },
+                        new { Mfo = "303484", Name = "ПАТ \"Західінкомбанк\"" },
+                        new { Mfo = "320478", Name = "АБ \"УКРГАЗБАНК\"" },
+                        new { Mfo = "306704", Name = "ПАТ \"КЛАСИКБАНК\"" },
+                        new { Mfo = "319092", Name = "ПАТ\"БАНК\"КИЇВСЬКА РУСЬ Київ" },
+                        new { Mfo = "300120", Name = "\"БАНК ПЕТРОКОММЕРЦ-УКРАЇНА\"" },
+                        new { Mfo = "306500", Name = "ПАТ \"АБ \"РАДАБАНК\"" },
+                        new { Mfo = "300863", Name = "ПАТ \"КРЕДИТПРОМБАНК\"" },
+                        new { Mfo = "300302", Name = "ЦЕНТРАЛЬНЕ СХОВИЩЕ НБУ" },
+                        new { Mfo = "303020", Name = "УПРАВЛІННЯ НБУ У ВОЛИНСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "305006", Name = "УПРАВЛІННЯ НБУ В ДНIПРОПЕТРОВСЬКIЙ ОБЛ" },
+                        new { Mfo = "313377", Name = "УПРАВЛІННЯ НБУ В ЗАПОРІЗЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "315438", Name = "УПРАВЛІННЯ НБУ У ХМЕЛЬНИЦЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "321024", Name = "ГОЛОВНЕ УПР. НБУ ПО М.КИЄВУ І КИЇВ.ОБЛ" },
+                        new { Mfo = "325622", Name = "УПРАВЛІННЯ НБУ У ЛЬВІВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "328027", Name = "УПРАВЛІННЯ НБУ В ОДЕСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "351447", Name = "УПРАВЛІННЯ НБУ В ХАРКІВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "352297", Name = "УПРАВЛІННЯ НБУ В ХЕРСОНСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "356185", Name = "УПРАВЛІННЯ НБУ В ЧЕРНІВЕЦЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "399012", Name = "ДЕРЖАВНА СКАРБНИЦЯ УКРАЇНИ" },
+                        new { Mfo = "399045", Name = "БАНКНОТНО-МОНЕТНИЙ ДВІР" },
+                        new { Mfo = "399056", Name = "ФАБРИКА БАНКНОТНОГО ПАПЕРУ" },
+                        new { Mfo = "399119", Name = "ЦЕНТРАЛЬНИЙ АПАРАТ НБУ" },
+                        new { Mfo = "302429", Name = "Ф-Я АТ УКРЕКСІМБАНК, М.ВІННИЦЯ" },
+                        new { Mfo = "303547", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",ЛУЦЬК" },
+                        new { Mfo = "305675", Name = "Ф-Я АТ \"УКРЕКСIМБАНК\",ДНIПРО" },
+                        new { Mfo = "311324", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", ЖИТОМИР" },
+                        new { Mfo = "312226", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",УЖГОРОД" },
+                        new { Mfo = "313979", Name = "Ф-Я АТ\"УКРЕКСІМБАНК\",ЗАПОРІЖЖЯ" },
+                        new { Mfo = "315609", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",ХМЕЛЬНИЦЬКИЙ" },
+                        new { Mfo = "323389", Name = "Ф-Я АТ\"УКРЕКСІМБАНК\",КРОПИВНИЦЬКИЙ" },
+                        new { Mfo = "325718", Name = "Ф-Я АТ\"УКРЕКСІМБАНК\", ЛЬВІВ" },
+                        new { Mfo = "326739", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", МИКОЛАЇВ" },
+                        new { Mfo = "328618", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", ОДЕСА" },
+                        new { Mfo = "331649", Name = "Ф-Я АТ\"УКРЕКСІМБАНК\",ПОЛТАВА" },
+                        new { Mfo = "333539", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", РІВНЕ" },
+                        new { Mfo = "336688", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",ІВАНО-ФРАНКІВСЬК" },
+                        new { Mfo = "338879", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",ТЕРНОПІЛЬ" },
+                        new { Mfo = "351618", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", ХАРКІВ" },
+                        new { Mfo = "352639", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", ХЕРСОН" },
+                        new { Mfo = "353649", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",ЧЕРНІГІВ" },
+                        new { Mfo = "354789", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",ЧЕРКАСИ" },
+                        new { Mfo = "356271", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", ЧЕРНІВЦІ" },
+                        new { Mfo = "380333", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\",КИЇВ" },
+                        new { Mfo = "302076", Name = "ФВІННИЦЬКЕ ОБЛАСНЕ У АТОЩАД М.ВІННИЦЯ" },
+                        new { Mfo = "303398", Name = "ФВОЛИНСЬКЕ ОБЛАСНЕ УПР АТОЩАД М.ЛУЦЬК" },
+                        new { Mfo = "304665", Name = "ФЛУГАНСЬКЕ ОБЛАСНЕ  АТОЩАД М.СЄВЄРОДОН" },
+                        new { Mfo = "305482", Name = "ФДНІПРОПЕТРОВСЬКЕ О АТОЩАД М.ДНІПРО" },
+                        new { Mfo = "311647", Name = "ФЖИТОМИРСЬКЕ ОБЛАСНЕ АТОЩАД М.ЖИТОМИР" },
+                        new { Mfo = "312356", Name = "ФЗАКАРПАТСЬКЕ ОБЛАСН АТОЩАД М.УЖГОРОД" },
+                        new { Mfo = "313957", Name = "ФЗАПОРІЗЬКЕ ОБЛАСНЕ АТОЩАД М.ЗАПОРІЖЖ" },
+                        new { Mfo = "315784", Name = "ФХМЕЛЬНИЦЬКЕ ОБЛАС УПРАТОЩАД М.ХМЕЛЬН." },
+                        new { Mfo = "323475", Name = "ФКІРОВОГРАДСЬКЕ ОУ АТОЩАД М.КІРОВОГРА" },
+                        new { Mfo = "324805", Name = "АТ \"Ощадбанк\", м.Київ" },
+                        new { Mfo = "325796", Name = "ФЛЬВІВСЬКЕ ОБЛАСНЕ УПР АТОЩАД М.ЛЬВІВ" },
+                        new { Mfo = "326461", Name = "ФМИКОЛАЇВСЬКЕ ОБЛАС АТОЩАД М.МИКОЛАЇВ" },
+                        new { Mfo = "328845", Name = "ФОДЕСЬКЕ ОБЛАСНЕ УПРАВ АТОЩАД М.ОДЕСА" },
+                        new { Mfo = "331467", Name = "ФПОЛТАВСЬКЕ ОБЛАСНЕ  АТОЩАД М.ПОЛТАВА" },
+                        new { Mfo = "333368", Name = "ФРІВНЕНСЬКЕ ОБЛАСНЕ УП АТОЩАД М.РІВНЕ" },
+                        new { Mfo = "335106", Name = "ФДОНЕЦЬКЕ ОБЛАСНЕ УП АТОЩАД М.КРАМАТОР" },
+                        new { Mfo = "336503", Name = "ФІВАНО-ФРАНКІВСЬКЕ АТОЩАДБ М.ІВАНО-ФР" },
+                        new { Mfo = "337568", Name = "ФСУМСЬКЕ ОБЛАСНЕ УПРАВЛ АТОЩАД М.СУМИ" },
+                        new { Mfo = "338545", Name = "ФТЕРНОПІЛЬСЬКЕ ОБЛА АТОЩАД М.ТЕРНОПІЛ" },
+                        new { Mfo = "351823", Name = "ФХАРКІВСЬКЕ ОБЛАСНЕ У АТОЩАД М.ХАРКІВ" },
+                        new { Mfo = "352457", Name = "ФХЕРСОНСЬКЕ ОБЛАСНЕ У АТОЩАД М.ХЕРСОН" },
+                        new { Mfo = "353553", Name = "ФЧЕРНІГІВСЬКЕ ОБЛАС АТОЩАД М.ЧЕРНІГІВ" },
+                        new { Mfo = "354507", Name = "ФЧЕРКАСЬКЕ ОУ АТ ОЩАДБАНК М.ЧЕРКАСИ" },
+                        new { Mfo = "356334", Name = "ФЧЕРНІВЕЦЬКЕ ОБЛАСН АТОЩАД М.ЧЕРНІВЦІ" },
+                        new { Mfo = "305653", Name = "ДОДАТ\"РАЙФФАЙЗЕНБАНКАВАЛЬ\"М.ДНІПР-СЬК" },
+                        new { Mfo = "325570", Name = "ЛОДАТ\"РАЙФФАЙЗЕН БАНК АВАЛЬ\"М.ЛЬВІВ" },
+                        new { Mfo = "328351", Name = "ООДАТ\"РАЙФФАЙЗЕН БАНК АВАЛЬ\"М.ОДЕСА" },
+                        new { Mfo = "350589", Name = "ХОД АТ\"РАЙФФАЙЗЕН БАНК АВАЛЬ\"М.ХАРКІВ" },
+                        new { Mfo = "380805", Name = "АТ \"РАЙФФАЙЗЕН БАНК АВАЛЬ\" У М. КИЄВІ" },
+                        new { Mfo = "300711", Name = "ПЕЧЕРСЬКА Ф.ПАТ КБ\"ПРИВАТБАНК\", М.КИЇВ" },
+                        new { Mfo = "302689", Name = "ВІННИЦЬКА Ф.ПАТ КБПРИВАТБАНК,М.ВІННИЦЯ" },
+                        new { Mfo = "304795", Name = "ЛУГАН.Ф-Я ПАТ КБ\"ПРИВАТБАНК\"М.ЛУГАНСЬК" },
+                        new { Mfo = "305750", Name = "КР.ФІЛІЯ ПАТКБ\"ПРИВАТБАНК\", КРИВИЙ РІГ" },
+                        new { Mfo = "311744", Name = "ЖИТОМИР.РУ ПАТ КБ\"ПРИВАТБАНК\"М.ЖИТОМИР" },
+                        new { Mfo = "312378", Name = "ЗАКАРП.РУ ПАТ КБ\"ПРИВАТБАНК\",М.УЖГОРОД" },
+                        new { Mfo = "313399", Name = "ЗАП.РУ ПАТ КБ\"ПРИВАТБАНК\", М.ЗАПОРІЖЖЯ" },
+                        new { Mfo = "315405", Name = "ХМЕЛ.Ф.ПАТКБ\"ПРИВАТБАНК,М.ХМЕЛЬНИЦЬКИЙ" },
+                        new { Mfo = "320649", Name = "Ф\"РОЗРАХ.ЦЕНТР\"ПАТ КБ\"ПРИВАТБАНК\",КИЇВ" },
+                        new { Mfo = "321842", Name = "КИЇВСЬКЕ ГРУ ПАТ КБ\"ПРИВАТБАНК\",М.КИЇВ" },
+                        new { Mfo = "323583", Name = "КІРОВОГР. РУ \"ПРИВАТБАНК\",М.КІРОВОГРАД" },
+                        new { Mfo = "324935", Name = "СЕВ.Ф.ПАТ КБ\"ПРИВАТБАНК\",М.СЕВАСТОПОЛЬ" },
+                        new { Mfo = "325321", Name = "ЗАХІДНЕ ГРУ ПАТ КБ\"ПРИВАТБАНК\" М.ЛЬВІВ" },
+                        new { Mfo = "326610", Name = "МИКОЛАЇВСЬКЕ РУ\"ПРИВАТБАНК\",М.МИКОЛАЇВ" },
+                        new { Mfo = "331401", Name = "ПОЛТ. ГРУ ПАТ КБ\"ПРИВАТБАНК\",М.ПОЛТАВА" },
+                        new { Mfo = "333391", Name = "РІВНЕНСЬКА Ф.ПАТ КБ ПРИВАТБАНК М.РІВНЕ" },
+                        new { Mfo = "335429", Name = "МАРІУП.Ф.ПАТ КБ\"ПРИВАТБАНК\"М.МАРІУПОЛЬ" },
+                        new { Mfo = "335496", Name = "ДОНЕЦЬКЕ РУПАТ КБ ПРИВАТБАНК,М.ДОНЕЦЬК" },
+                        new { Mfo = "335548", Name = "КРАМ.Ф.ПАТКБ\"ПРИВАТБАНК\",М.КРАМАТОРСЬК" },
+                        new { Mfo = "336677", Name = "І-ФР.Ф.ПАТ КБ\"ПРИВАТБАНК\",М.І-ФРАНКІВ." },
+                        new { Mfo = "337546", Name = "СУМСЬКА ФІЛІЯ ПАТКБ\"ПРИВАТБАНК\",М.СУМИ" },
+                        new { Mfo = "338783", Name = "ТЕРНОПІЛЬСЬКА Ф.ПАТКБПРИВАТБАНК,М.ТЕРН" },
+                        new { Mfo = "352479", Name = "ХЕРСОН.Ф.ПАТ КБ \"ПРИВАТБАНК\", М.ХЕРСОН" },
+                        new { Mfo = "353586", Name = "ЧЕРНІГ.РУ ПАТ КБ\"ПРИВАТБАНК\"М.ЧЕРНІГІВ" },
+                        new { Mfo = "354347", Name = "ЧЕРК. ГРУ ПАТ КБ\"ПРИВАТБАНК\",М.ЧЕРКАСИ" },
+                        new { Mfo = "356282", Name = "ЧЕРНІВ.Ф.ПАТ КБ\"ПРИВАТБАНК\",М.ЧЕРНІВЦІ" },
+                        new { Mfo = "380593", Name = "КИЇВСЬКА ФІЛІЯ АТ \"МІСТО БАНК\"" },
+                        new { Mfo = "802015", Name = "ГУ ДКСУ У ВІННИЦЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "803014", Name = "ГУ ДКСУ У ВОЛИНСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "804013", Name = "ГУ ДКСУ У ЛУГАНСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "811039", Name = "ГУ ДКСУ У ЖИТОМИРСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "812016", Name = "ГУ ДКСУ У ЗАКАРПАТСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "813015", Name = "ГУ ДКСУ У ЗАПОРІЗЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "815013", Name = "ГУ ДКСУ У ХМЕЛЬНИЦЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "820019", Name = "ГУ ДКСУ У М.КИЄВІ" },
+                        new { Mfo = "821018", Name = "ГУ ДКСУ У КИЇВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "823016", Name = "ГУ ДКСУ У КІРОВОГРАДСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "824026", Name = "ГУ ДКСУ В АРК, М.СІМФЕРОПОЛЬ" },
+                        new { Mfo = "824509", Name = "ГУ ДКСУ У М.СЕВАСТОПОЛІ" },
+                        new { Mfo = "825014", Name = "ГУ ДКСУ У ЛЬВІВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "826013", Name = "ГУ ДКСУ У МИКОЛАЇВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "828011", Name = "ГУ ДКСУ В ОДЕСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "831019", Name = "ГУ ДКСУ У ПОЛТАВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "833017", Name = "ГУ ДКСУ У РІВНЕНСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "834016", Name = "ГУ ДКСУ У ДОНЕЦЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "836014", Name = "ГУ ДКСУ В ІВАНО-ФРАНКІВСЬКІЇ ОБЛАСТІ" },
+                        new { Mfo = "837013", Name = "ГУ ДКСУ У СУМСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "838012", Name = "ГУ ДКСУ У ТЕРНОПІЛЬСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "851011", Name = "ГУ ДКСУ У ХАРКІВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "852010", Name = "ГУ ДКСУ У ХЕРСОНСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "853592", Name = "ГУ ДКСУ У ЧЕРНІГІВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "854018", Name = "ГУ ДКСУ У ЧЕРКАСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "856135", Name = "ГУ ДКСУ У ЧЕРНІВЕЦЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "322669", Name = "ФГОЛОВНЕ УПРАВЛІННЯ ПО  АТОЩАД М.КИЇВ" },
+                        new { Mfo = "322904", Name = "КРД АТ\"РАЙФФАЙЗЕН БАНК АВАЛЬ\"М.КИЇВ" },
+                        new { Mfo = "303440", Name = "ВОЛИНС.ГРУ ПАТ КБ \"ПРИВАТБАНК\",М.ЛУЦЬК" },
+                        new { Mfo = "328704", Name = "ЮЖНЕ ГРУ ПАТ КБ \"ПРИВАТБАНК\", М.ОДЕСА" },
+                        new { Mfo = "351533", Name = "ХАРКІВ.ГРУ ПАТ КБ\"ПРИВАТБАНК\",М.ХАРКІВ" },
+                        new { Mfo = "384436", Name = "КРИМ.РУПАТКБ\"ПРИВАТБАНК\",М.СІМФЕРОПОЛЬ" },
+                        new { Mfo = "805012", Name = "ГУ ДКСУ У ДНІПРОПЕТРОВСЬКІЙ ОБЛАСТІ" },
+                        new { Mfo = "377777", Name = "ПАТ \"КБ \"УФС\"" },
+                        new { Mfo = "380980", Name = "ПАТ\"КОМЕРЦІЙНИЙ БАНК\"ДАНІЕЛЬ\"" },
+                        new { Mfo = "380117", Name = "КИЇВСЬКА ФІЛІЯ ПАТ \"МЕГАБАНК\"У М.КИЄВІ" },
+                        new { Mfo = "380106", Name = "ПАТ \"АКБ \"Траст-капітал\"" },
+                        new { Mfo = "380883", Name = "Укр.банк реконстр.та розв." },
+                        new { Mfo = "380377", Name = "АТ \"УКРБУДІНВЕСТБАНК\"" },
+                        new { Mfo = "380399", Name = "ПАТ \"БАНК КАМБІО\"" },
+                        new { Mfo = "380388", Name = "ПАТ \"ПтБ\"" },
+                        new { Mfo = "380054", Name = "ПАТ КБ\"ФІНАНСОВА ІНІЦІАТИВА" },
+                        new { Mfo = "380355", Name = "ПАТ КБ \"ЄВРОБАНК\"" },
+                        new { Mfo = "380281", Name = "ПАТ\"БАНК ІНВЕСТИЦІЙ ТА ЗАОЩАДЖЕНЬ\"КИЇВ" },
+                        new { Mfo = "380775", Name = "Ф-Я\"КИЇВСІТІ\"ПАТ КБ\"ПРИВАТБАНК\",М.КИЇВ" },
+                        new { Mfo = "380913", Name = "АТ \"БМ БАНК\"" },
+                        new { Mfo = "307305", Name = "ПАТ \"КБ \"АКСІОМА\"" },
+                        new { Mfo = "380236", Name = "АТ \"Дельта Банк\"" },
+                        new { Mfo = "380418", Name = "АТ \"БАНК ФОРВАРД\"" },
+                        new { Mfo = "339339", Name = "ПАТ \"МІСЬКИЙ КОМЕРЦ. БАНК\"" },
+                        new { Mfo = "380269", Name = "СТОЛИЧНА ФІЛІЯ ПАТ КБ\"ПРИВАТБАНК\" КИЇВ" },
+                        new { Mfo = "307350", Name = "АТ \"АКБ \"КОНКОРД\"" },
+                        new { Mfo = "380322", Name = "АТ \"БАНК БОГУСЛАВ\"" },
+                        new { Mfo = "380366", Name = "ПАТ \"КРЕДИТ ЄВРОПА БАНК\"" },
+                        new { Mfo = "380430", Name = "АТ \"ЄВРОГАЗБАНК\"" },
+                        new { Mfo = "380441", Name = "ПАТ \"КРЕДИТВЕСТ БАНК\"" },
+                        new { Mfo = "380667", Name = "АТ \"ЕРДЕ БАНК\"" },
+                        new { Mfo = "399120", Name = "АУДИТОР. ФІРМА \"ПРАЙСВОТЕРХАУСКУПЕРС\"" },
+                        new { Mfo = "397003", Name = "Ф-Я АТ \"УКРЕКСІМБАНК\", СУМИ" },
+                        new { Mfo = "339555", Name = "ПАТ \"КБ \"ПРЕМІУМ\"" },
+                        new { Mfo = "380474", Name = "ПАТ БАНК \"ТРАСТ\"" },
+                        new { Mfo = "313009", Name = "АТ \"МОТОР-БАНК\"" },
+                        new { Mfo = "380515", Name = "АТ \"КБ \"СОЮЗ\"" },
+                        new { Mfo = "380526", Name = "ПАТ \"КБ \"ГЛОБУС\"" },
+                        new { Mfo = "380548", Name = "ПАТ \"АП БАНК\"" },
+                        new { Mfo = "380582", Name = "АТ \"МІБ\"" },
+                        new { Mfo = "307394", Name = "ПАТ \"АКТАБАНК\"" },
+                        new { Mfo = "380612", Name = "АТ \"ЗЛАТОБАНК\"" },
+                        new { Mfo = "380634", Name = "ПуАТ \"КБ \"АКОРДБАНК\"" },
+                        new { Mfo = "380645", Name = "ПАТ \"БАНК 3/4\"" },
+                        new { Mfo = "377090", Name = "ПАТ \"ЄВРОПРОМБАНК\"" },
+                        new { Mfo = "380690", Name = "ПАТ КБ \"СТАНДАРТ\"" },
+                        new { Mfo = "380689", Name = "ПАТ \"ВЕРНУМ БАНК\"" },
+                        new { Mfo = "380708", Name = "ПАТ \"АВАНТ-БАНК\"" },
+                        new { Mfo = "380719", Name = "ПАТ \"ВБР\"" },
+                        new { Mfo = "380731", Name = "ПАТ \"Дойче Банк ДБУ\"" },
+                        new { Mfo = "319111", Name = "ПАТ \"РАДИКАЛ БАНК\"" },
+                        new { Mfo = "344443", Name = "ПАТ \"РОЗРАХУНКОВИЙ ЦЕНТР\"" },
+                        new { Mfo = "380742", Name = "ПАТ КБ \"Центр\"" },
+                        new { Mfo = "380786", Name = "ПУАТ \"СМАРТБАНК\"" },
+                        new { Mfo = "380797", Name = "ПАТ\"СЕБ КОРПОРАТИВНИЙ БАНК\"" },
+                        new { Mfo = "380816", Name = "АТ \"БАНК СІЧ\"" },
+                        new { Mfo = "307424", Name = "ПАТ \"ІНТЕРКРЕДИТБАНК\"" },
+                        new { Mfo = "307435", Name = "ПАТ \"МЕЛІОР БАНК\"" },
+                        new { Mfo = "380861", Name = "ПАТ \"БАНК \"СОФІЙСЬКИЙ\"" },
+                        new { Mfo = "380894", Name = "АТ \"АЛЬПАРІ БАНК\"" },
+                        new { Mfo = "380902", Name = "ПАТ \"БАНК \"ЮНІСОН\"" },
+                        new { Mfo = "380935", Name = "ПАТ \"БАНК МИХАЙЛІВСЬКИЙ\"" },
+                        new { Mfo = "380946", Name = "АТ \"БАНК АВАНГАРД\"" },
+                        new { Mfo = "380957", Name = "ПАТ\"ІНВЕСТИЦІЙНО-ТРАСТ.БАНК" },
+                        new { Mfo = "339016", Name = "ПАТ \"БАНК \"ПОРТАЛ\"" },
+                        new { Mfo = "377120", Name = "ПАТ \"КОМЕРЦІЙНИЙ БАНК \"ГЕФЕСТ\"" },
+                        new { Mfo = "339038", Name = "ПАТ \"ВЕКТОР БАНК\"" },
+                        new { Mfo = "899998", Name = "Казначейство України(ел. адм. подат.)" },
+                        new { Mfo = "339050", Name = "АТ \"КРИСТАЛБАНК\"" },
+                        new { Mfo = "380010", Name = "ФІЛІЯ ПАТ \"ПУМБ\" В М.КИЇВ" },
+                        new { Mfo = "339072", Name = "ПАТ \"РВС БАНК\"" }
+                    );
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.Kved", b =>
                 {
                     b.Property<string>("Code")
                         .ValueGeneratedOnAdd()
@@ -146,7 +531,7 @@ namespace Spd3.Migrations
 
                     b.HasIndex("ParentCode");
 
-                    b.ToTable("dictKved");
+                    b.ToTable("Kveds");
 
                     b.HasData(
                         new { Code = "A", Name = "СІЛЬСЬКЕ ГОСПОДАРСТВО, ЛІСОВЕ ГОСПОДАРСТВО ТА РИБНЕ ГОСПОДАРСТВО" },
@@ -1146,83 +1531,167 @@ namespace Spd3.Migrations
                     );
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.TaxAccountant", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<long?>("FacebookId");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("PictureUrl");
-
-                    b.Property<string>("RealName")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Spd.Models.Entities.TaxPerson", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.Region", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Gender");
+                    b.Property<string>("Name")
+                        .HasMaxLength(64);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regions");
+
+                    b.HasData(
+                        new { Id = 80, Name = "Київ (місто)" },
+                        new { Id = 5, Name = "Вінницька область" },
+                        new { Id = 7, Name = "Волинська область" },
+                        new { Id = 12, Name = "Дніпропетровська область" },
+                        new { Id = 14, Name = "Донецька область" },
+                        new { Id = 18, Name = "Житомирська область" },
+                        new { Id = 21, Name = "Закарпатська область" },
+                        new { Id = 23, Name = "Запорізька область" },
+                        new { Id = 26, Name = "Івано-Франківська область" },
+                        new { Id = 32, Name = "Київська область" },
+                        new { Id = 35, Name = "Кіровоградська область" },
+                        new { Id = 44, Name = "Луганська область" },
+                        new { Id = 46, Name = "Львівська область" },
+                        new { Id = 48, Name = "Миколаївська область" },
+                        new { Id = 51, Name = "Одеська область" },
+                        new { Id = 53, Name = "Полтавська область" },
+                        new { Id = 56, Name = "Рівненська область" },
+                        new { Id = 59, Name = "Сумська область" },
+                        new { Id = 61, Name = "Тернопільська область" },
+                        new { Id = 63, Name = "Харківська область" },
+                        new { Id = 65, Name = "Херсонська область" },
+                        new { Id = 68, Name = "Хмельницька область" },
+                        new { Id = 71, Name = "Черкаська область" },
+                        new { Id = 73, Name = "Чернівецька область" },
+                        new { Id = 74, Name = "Чернігівська область" },
+                        new { Id = 1, Name = "Автономна Республіка Крим" },
+                        new { Id = 85, Name = "Севастополь (місто)" }
+                    );
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Account");
+
+                    b.Property<int>("AccountTypeId");
+
+                    b.Property<string>("BankName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Edrpou")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Mfo")
+                        .HasMaxLength(6);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountTypeId");
+
+                    b.ToTable("TaxAccounts");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxAccountType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaxAccountType");
+
+                    b.HasData(
+                        new { Id = 1, Name = "ФОП, Єдиний податок" },
+                        new { Id = 2, Name = "ФОП, Єдиний соціальній внесок" }
+                    );
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxInspection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("RegionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("TaxInspections");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPerson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(64);
 
                     b.Property<string>("IdentityId");
 
-                    b.Property<string>("Locale");
+                    b.Property<string>("Street")
+                        .HasMaxLength(64);
 
-                    b.Property<string>("Location");
+                    b.Property<string>("TaxCode")
+                        .HasMaxLength(16);
+
+                    b.Property<int>("TaxInspectionId");
+
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(5);
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityId");
 
+                    b.HasIndex("TaxInspectionId");
+
                     b.ToTable("TaxPersons");
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPersonKved", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("KvedCode")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("KvedName");
+
+                    b.Property<int>("TaxPersonId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxPersonId");
+
+                    b.ToTable("TaxPersonKveds");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1235,7 +1704,7 @@ namespace Spd3.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1243,7 +1712,7 @@ namespace Spd3.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1256,7 +1725,7 @@ namespace Spd3.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1264,24 +1733,53 @@ namespace Spd3.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant")
+                    b.HasOne("Spd3.Models.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.Kved", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.Kved", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.Kved", "ParentKved")
+                    b.HasOne("Spd3.Models.Entities.Kved", "ParentKved")
                         .WithMany("ChildrenKvedList")
                         .HasForeignKey("ParentCode");
                 });
 
-            modelBuilder.Entity("Spd.Models.Entities.TaxPerson", b =>
+            modelBuilder.Entity("Spd3.Models.Entities.TaxAccount", b =>
                 {
-                    b.HasOne("Spd.Models.Entities.TaxAccountant", "Identity")
+                    b.HasOne("Spd3.Models.Entities.TaxAccountType", "TaxAccountType")
+                        .WithMany("TaxAccounts")
+                        .HasForeignKey("AccountTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxInspection", b =>
+                {
+                    b.HasOne("Spd3.Models.Entities.Region", "Region")
+                        .WithMany("TaxInspections")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPerson", b =>
+                {
+                    b.HasOne("Spd3.Models.Entities.AppUser", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId");
+
+                    b.HasOne("Spd3.Models.Entities.TaxInspection", "TaxInspection")
+                        .WithMany("TaxPersons")
+                        .HasForeignKey("TaxInspectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Spd3.Models.Entities.TaxPersonKved", b =>
+                {
+                    b.HasOne("Spd3.Models.Entities.TaxPerson", "TaxPerson")
+                        .WithMany("TaxPersonKveds")
+                        .HasForeignKey("TaxPersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

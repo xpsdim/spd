@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Spd.Data;
 using Spd.Helpers;
-using Spd.Models.Entities;
-using Spd.ViewModels;
+using Spd3.Models.Entities;
+using Spd3.ViewModels;
 using System.Threading.Tasks;
 
 namespace Spd.Controllers
@@ -42,5 +43,54 @@ namespace Spd.Controllers
 
 			return new OkObjectResult("Account created");
 		}
+
+		[Authorize]
+		[HttpPost]
+		public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+		{
+			var user = await _userManager.FindByIdAsync(model.UserId);
+			if (user == null || !await _userManager.CheckPasswordAsync(user, model.OldPassword))
+			{
+				return new UnauthorizedResult();
+			}
+
+			if (model.NewPassword != model.RepeatNewPassword)
+			{
+				return new BadRequestObjectResult("Password and confirm password is not match!");
+			}
+
+			var result = await _userManager.RemovePasswordAsync(user);
+			if (result.Succeeded)
+			{
+				result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+				if (result.Succeeded)
+				{
+					return new OkObjectResult("Password changed successfully");
+				}
+				else
+				{
+					return new BadRequestObjectResult(result.Errors);
+				}
+			}
+			else
+			{
+				return new BadRequestObjectResult(result.Errors);
+			}			
+		}
+
+		[Authorize]
+		[HttpGet]
+		public IActionResult ChangePassword()
+		{
+			var p = User.Claims;
+			/*if (user == null)
+			{
+				return NotFound();
+			}
+			ChangePasswordViewModel model = new ChangePasswordViewModel { UserId = user.Id };
+			return View(model);*/
+			return null;
+		}
+
 	}
 }

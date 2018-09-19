@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Spd3.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,21 +26,21 @@ namespace Spd3.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
                     Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     RealName = table.Column<string>(maxLength: 255, nullable: true),
                     FacebookId = table.Column<long>(nullable: true),
                     PictureUrl = table.Column<string>(nullable: true)
@@ -51,7 +51,19 @@ namespace Spd3.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "dictKved",
+                name: "Banks",
+                columns: table => new
+                {
+                    Mfo = table.Column<string>(maxLength: 6, nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Banks", x => x.Mfo);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kveds",
                 columns: table => new
                 {
                     Code = table.Column<string>(maxLength: 10, nullable: false),
@@ -60,13 +72,39 @@ namespace Spd3.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_dictKved", x => x.Code);
+                    table.PrimaryKey("PK_Kveds", x => x.Code);
                     table.ForeignKey(
-                        name: "FK_dictKved_dictKved_ParentCode",
+                        name: "FK_Kveds_Kveds_ParentCode",
                         column: x => x.ParentCode,
-                        principalTable: "dictKved",
+                        principalTable: "Kveds",
                         principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Regions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 64, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Regions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaxAccountType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxAccountType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,15 +214,62 @@ namespace Spd3.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaxInspections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    RegionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxInspections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaxInspections_Regions_RegionId",
+                        column: x => x.RegionId,
+                        principalTable: "Regions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaxAccounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccountTypeId = table.Column<int>(nullable: false),
+                    Mfo = table.Column<string>(maxLength: 6, nullable: true),
+                    BankName = table.Column<string>(maxLength: 256, nullable: true),
+                    Edrpou = table.Column<string>(maxLength: 20, nullable: true),
+                    Account = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxAccounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaxAccounts_TaxAccountType_AccountTypeId",
+                        column: x => x.AccountTypeId,
+                        principalTable: "TaxAccountType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TaxPersons",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IdentityId = table.Column<string>(nullable: true),
-                    Location = table.Column<string>(nullable: true),
-                    Locale = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true)
+                    FullName = table.Column<string>(maxLength: 64, nullable: true),
+                    TaxCode = table.Column<string>(maxLength: 16, nullable: true),
+                    ZipCode = table.Column<string>(maxLength: 5, nullable: true),
+                    City = table.Column<string>(maxLength: 32, nullable: true),
+                    Street = table.Column<string>(maxLength: 64, nullable: true),
+                    TaxInspectionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,6 +280,33 @@ namespace Spd3.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TaxPersons_TaxInspections_TaxInspectionId",
+                        column: x => x.TaxInspectionId,
+                        principalTable: "TaxInspections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaxPersonKveds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TaxPersonId = table.Column<int>(nullable: false),
+                    KvedCode = table.Column<string>(maxLength: 10, nullable: true),
+                    KvedName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxPersonKveds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaxPersonKveds_TaxPersons_TaxPersonId",
+                        column: x => x.TaxPersonId,
+                        principalTable: "TaxPersons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -237,14 +349,34 @@ namespace Spd3.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_dictKved_ParentCode",
-                table: "dictKved",
+                name: "IX_Kveds_ParentCode",
+                table: "Kveds",
                 column: "ParentCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxAccounts_AccountTypeId",
+                table: "TaxAccounts",
+                column: "AccountTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxInspections_RegionId",
+                table: "TaxInspections",
+                column: "RegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxPersonKveds_TaxPersonId",
+                table: "TaxPersonKveds",
+                column: "TaxPersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaxPersons_IdentityId",
                 table: "TaxPersons",
                 column: "IdentityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxPersons_TaxInspectionId",
+                table: "TaxPersons",
+                column: "TaxInspectionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -265,16 +397,34 @@ namespace Spd3.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "dictKved");
+                name: "Banks");
 
             migrationBuilder.DropTable(
-                name: "TaxPersons");
+                name: "Kveds");
+
+            migrationBuilder.DropTable(
+                name: "TaxAccounts");
+
+            migrationBuilder.DropTable(
+                name: "TaxPersonKveds");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "TaxAccountType");
+
+            migrationBuilder.DropTable(
+                name: "TaxPersons");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "TaxInspections");
+
+            migrationBuilder.DropTable(
+                name: "Regions");
         }
     }
 }

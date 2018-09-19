@@ -11,9 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Spd.Data;
-using Spd.Data.Dicts;
+using Spd3.Data.Dicts;
 using Spd.Helpers;
-using Spd.Models.Entities;
+using Spd3.Models.Entities;
 using System.Text;
 
 namespace Spd3
@@ -60,10 +60,11 @@ namespace Spd3
 				.AddDefaultTokenProviders();
 
 
-
 			services.AddAutoMapper();
 
 			services.AddTransient<IDataSeeder<Kved>, KvedSeeder>();
+			services.AddTransient<IDataSeeder<Bank>, MfoSeeder>();
+			services.AddTransient<IDataSeeder<Region>, RegionSeeder>();
 			services.AddTransient<IWebRootPathMapper, WebRootPathMapper>();
 
 			services.AddMvc()

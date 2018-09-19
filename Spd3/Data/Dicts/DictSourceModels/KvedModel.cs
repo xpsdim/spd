@@ -1,4 +1,4 @@
-﻿namespace Spd.Data.Dicts.DictSourceModels
+﻿namespace Spd3.Data.Dicts.DictSourceModels
 {
     public class KvedModel
 	{

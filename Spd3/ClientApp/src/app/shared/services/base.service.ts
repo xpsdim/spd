@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs/Rx';
+import { Headers } from '@angular/http';
 
-
-export abstract class BaseService {
-
-  constructor() { }
+export abstract class BaseService {   
 
   protected handleError(error: any) {
     var applicationError = error.headers.get('Application-Error');
@@ -25,5 +23,11 @@ export abstract class BaseService {
 
     modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
     return Observable.throw(modelStateErrors || 'Server error');
+  }
+
+  protected jsonContentTypeHeader() {
+    let _jsonContentTypeHeader = new Headers();
+    _jsonContentTypeHeader.append('Content-Type', 'application/json');
+    return _jsonContentTypeHeader;
   }
 }

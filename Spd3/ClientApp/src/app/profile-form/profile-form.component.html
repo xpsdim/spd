@@ -1,3 +1,29 @@
-<p>
-  profile-form works!
-</p>
+<div class="row">
+  <div class="col-md-6">
+    <h2>Change password</h2>
+    <form #f="ngForm" novalidate (ngSubmit)="changePassword(f)">
+
+      <div class="form-group">
+        <label for="password">Old Password</label>
+        <input type="password" class="form-control" id="password" required name="oldPassword" placeholder="Old Password" ngModel>
+      </div>
+
+      <div class="form-group">
+        <label for="newpassword">New Password</label>
+        <input type="password" class="form-control" id="newpassword" required name="newPassword" placeholder="New Password" ngModel>
+      </div>
+
+      <div class="form-group">
+        <label for="newpassword1">New Password Again</label>
+        <input type="password" class="form-control" id="newpassword1" required name="repeatNewPassword" placeholder="Repeat New Password" ngModel>
+      </div>
+
+      <div *ngIf="errors" class="alert alert-danger" role="alert">
+        <strong>Oops!</strong> {{errors}}
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
