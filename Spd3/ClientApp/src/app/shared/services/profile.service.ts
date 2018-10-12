@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { BaseService } from "./base.service";
 import { ConfigService } from '../utils/config.service';
@@ -12,7 +12,7 @@ export class ProfileService extends BaseService {
   //TODO move baseurl into base service class
   baseUrl: string = '';
 
-  constructor(private configService: ConfigService) {
+  constructor(private http: Http, private configService: ConfigService) {
     super();
     this.baseUrl = configService.getApiURI();
   }
@@ -21,8 +21,14 @@ export class ProfileService extends BaseService {
 
   }
 
-  getChangePasswordData(): Observable<ChangePassword> {
-    return null
-    //this.http.get()
+  getChangePasswordData(): Observable<ChangePassword> {    
+    return this.http.post(this.baseUrl + '/profile', null)
+      .map((response: Response) => {
+        const result = response.json();
+        return result;
+      })
+      .catch((error: Response | any) => {
+        return Observable.throw(error.statusText);
+      });
   }
 }

@@ -45,7 +45,7 @@ namespace Spd.Controllers
 		}
 
 		[Authorize]
-		[HttpPost]
+		[Route("ChangePassword")]
 		public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
 		{
 			var user = await _userManager.FindByIdAsync(model.UserId);
@@ -76,20 +76,6 @@ namespace Spd.Controllers
 			{
 				return new BadRequestObjectResult(result.Errors);
 			}			
-		}
-
-		[Authorize]
-		[HttpGet]
-		public IActionResult ChangePassword()
-		{
-			var p = User.Claims;
-			/*if (user == null)
-			{
-				return NotFound();
-			}
-			ChangePasswordViewModel model = new ChangePasswordViewModel { UserId = user.Id };
-			return View(model);*/
-			return null;
 		}
 
 	}

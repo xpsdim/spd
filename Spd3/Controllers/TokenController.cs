@@ -42,9 +42,10 @@ namespace Spd.Controllers
 		private string BuildToken(UserModel user)
 		{
 			var claims = new[] {
+				new Claim("Role", "api_access"),
 				new Claim(JwtRegisteredClaimNames.NameId, user.UserId),
 				new Claim(JwtRegisteredClaimNames.Sub, user.Name),
-				new Claim(JwtRegisteredClaimNames.Email, user.Email),				
+				new Claim(JwtRegisteredClaimNames.Email, user.Email),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			   };
 

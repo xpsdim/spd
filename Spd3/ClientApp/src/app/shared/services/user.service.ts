@@ -33,24 +33,27 @@ export class UserService extends BaseService {
 
   register(email: string, password: string, realName: string): Observable<boolean> {
     let body = JSON.stringify({ email, password, realName });
-
-    
-    let options = new RequestOptions({ headers: this.jsonContentTypeHeader() });
-
-    return this.http.post(this.baseUrl + "/accounts", body, options)
+    return this.http.post(this.baseUrl + "/accounts", body)
       .map(res => true)
       .catch(this.handleError);
   }
 
-  login(userName, password) {
-    let headers = this.jsonContentTypeHeader();
+  login(userName, password) {    
     return this.http
       .post(
-        this.baseUrl + '/token',
-      JSON.stringify({ userName, password }), { headers }
+        this.baseUrl + '/token', JSON.stringify({ userName, password })
       )
       .map(res => res.json())
       .map(res => {
+        //--------------------------------------        
+
+        let jwtData = res.token.split('.')[1]
+        let decodedJwtJsonData = window.atob(jwtData)
+        let decodedJwtData = JSON.parse(decodedJwtJsonData)        
+        console.log(decodedJwtData)
+        
+        //--------------------------------------
+
         localStorage.setItem('auth_token', res.token);
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
@@ -75,11 +78,10 @@ export class UserService extends BaseService {
   }
 
   facebookLogin(accessToken: string) {    
-    let body = JSON.stringify({ accessToken });
-    let headers = this.jsonContentTypeHeader();
+    let body = JSON.stringify({ accessToken });    
     return this.http
       .post(
-      this.baseUrl + '/externalauth/facebook', body, { headers })
+      this.baseUrl + '/externalauth/facebook', body)
       .map(res => res.json())
       .map(res => {
         localStorage.setItem('auth_token', res.auth_token);

@@ -24,10 +24,5 @@ export abstract class BaseService {
     modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
     return Observable.throw(modelStateErrors || 'Server error');
   }
-
-  protected jsonContentTypeHeader() {
-    let _jsonContentTypeHeader = new Headers();
-    _jsonContentTypeHeader.append('Content-Type', 'application/json');
-    return _jsonContentTypeHeader;
-  }
+  
 }

@@ -40,6 +40,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\shared\models\change.password.ts" />
     <None Remove="ClientApp\src\app\shared\services\profile.service.ts" />
+    <None Remove="ClientApp\src\app\shared\utils\auth.request.options.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +50,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\change.password.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\profile.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\utils\auth.request.options.ts" />
   </ItemGroup>
 
   <ItemGroup>

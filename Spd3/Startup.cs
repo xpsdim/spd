@@ -15,6 +15,8 @@ using Spd3.Data.Dicts;
 using Spd.Helpers;
 using Spd3.Models.Entities;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace Spd3
 {
@@ -33,9 +35,26 @@ namespace Spd3
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			services.AddIdentity<AppUser, IdentityRole>(options =>
+			{
+				options.User.RequireUniqueEmail = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequireDigit = false;
+				options.Password.RequiredLength = 8;				
+			})
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders();
+
+			services.AddAuthentication(x => 
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
 				.AddJwtBearer(options =>
 				{
+					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
 						ValidateIssuer = true,
@@ -48,17 +67,22 @@ namespace Spd3
 					};
 				});
 
-			services.AddIdentity<AppUser, IdentityRole>(options =>
+			services.AddAuthorization(options =>
 			{
-				options.User.RequireUniqueEmail = false;
-				options.Password.RequireNonAlphanumeric = false;
-				options.Password.RequireUppercase = false;
-				options.Password.RequireDigit = false;
-				options.Password.RequiredLength = 8;
-			})
-				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders();
+				options.AddPolicy("ApiUser", new AuthorizationPolicyBuilder()
+					.RequireAuthenticatedUser()
+					.RequireClaim("Role", "api_access")
+					.Build());
+			});
 
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.Events.OnRedirectToLogin = context =>
+				{
+					context.Response.StatusCode = 401;
+					return Task.CompletedTask;
+				};
+			});
 
 			services.AddAutoMapper();
 
@@ -78,12 +102,12 @@ namespace Spd3
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-        }
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+			if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -91,18 +115,23 @@ namespace Spd3
             {
                 app.UseExceptionHandler("/Error");
             }
-
-            app.UseStaticFiles();
+			
+			app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
+			//this call must be above UseMvc
+			app.UseAuthentication();
+
+			app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
+			
+
+			app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
