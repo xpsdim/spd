@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
-import { UserRegistration } from '../models/user.registration.interface';
-import { ConfigService } from '../utils/config.service';
-
-import { BaseService } from "./base.service";
-
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+
+import { ConfigService } from '../utils/config.service';
+import { BaseService } from "./base.service";
 import { BehaviorSubject } from 'rxjs/Rx';
 
 
@@ -45,15 +42,6 @@ export class UserService extends BaseService {
       )
       .map(res => res.json())
       .map(res => {
-        //--------------------------------------        
-
-        let jwtData = res.token.split('.')[1]
-        let decodedJwtJsonData = window.atob(jwtData)
-        let decodedJwtData = JSON.parse(decodedJwtJsonData)        
-        console.log(decodedJwtData)
-        
-        //--------------------------------------
-
         localStorage.setItem('auth_token', res.token);
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
