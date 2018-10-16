@@ -91,7 +91,7 @@ namespace Spd.Controllers
 		}
 
 		[HttpPost("refresh")]		
-		public IActionResult Refresh(RefreshTokenModel model)
+		public IActionResult Refresh([FromBody]RefreshTokenModel model)
 		{
 			var principal = GetPrincipalFromExpiredToken(model);
 			var username = principal.Identity.Name;

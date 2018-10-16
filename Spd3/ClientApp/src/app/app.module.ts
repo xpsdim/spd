@@ -11,7 +11,7 @@ import { AccountModule } from './account/account.module';
 import { HttpModule } from '@angular/http';
 import { ProfileFormComponent } from './profile-form/profile-form.component';
 import { ProfileModule } from './profile-form/profile-form.module';
-import { ApiRequestOptions } from './shared/utils/auth.request.options';
+import { ApiRequestOptions } from './shared/utils/api.request.options';
 
 
 @NgModule({
