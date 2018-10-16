@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Text;
 using Spd3.Models.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using Spd3.ViewModels;
 
 namespace Spd.Controllers
 {
@@ -32,14 +34,14 @@ namespace Spd.Controllers
 
 			if (user != null)
 			{
-				var tokenString = BuildToken(user);
+				var tokenString = BuildTokenForUser(user);
 				response = Ok(new { token = tokenString });
 			}
 
 			return response;
-		}
+		}		
 
-		private string BuildToken(UserModel user)
+		private string BuildTokenForUser(UserModel user)
 		{
 			var claims = new[] {
 				new Claim("Role", "api_access"),
@@ -49,18 +51,55 @@ namespace Spd.Controllers
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			   };
 
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-			var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-			  _config["Jwt:Issuer"],
-			  claims,
-			  expires: DateTime.Now.AddMinutes(30),
-			  signingCredentials: creds);
-
-			return new JwtSecurityTokenHandler().WriteToken(token);
+			return GenerateToken(claims);			
 		}
 
+		private string GenerateToken(IEnumerable<Claim> claims)
+		{
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+
+			var jwt = new JwtSecurityToken(_config["Jwt:Issuer"],
+				_config["Jwt:Issuer"],
+				claims: claims, //the user's claims, for example new Claim[] { new Claim(ClaimTypes.Name, "The username"), //... 
+				notBefore: DateTime.UtcNow,
+				expires: DateTime.UtcNow.AddMinutes(5),
+				signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+			);
+
+			return new JwtSecurityTokenHandler().WriteToken(jwt); //the method is called WriteToken but returns a string
+		}
+
+		private ClaimsPrincipal GetPrincipalFromExpiredToken(RefreshTokenModel model)
+		{
+			var tokenValidationParameters = new TokenValidationParameters
+			{
+				ValidateAudience = true,
+				ValidateIssuer = true,
+				ValidateIssuerSigningKey = true,
+				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
+				ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+			};
+
+			var tokenHandler = new JwtSecurityTokenHandler();
+			SecurityToken securityToken;
+			var principal = tokenHandler.ValidateToken(model.Token, tokenValidationParameters, out securityToken);
+			var jwtSecurityToken = securityToken as JwtSecurityToken;
+			if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+				throw new SecurityTokenException("Invalid token");
+
+			return principal;
+		}
+
+		[HttpPost("refresh")]		
+		public IActionResult Refresh(RefreshTokenModel model)
+		{
+			var principal = GetPrincipalFromExpiredToken(model);
+			var username = principal.Identity.Name;
+
+			var newJwtToken = GenerateToken(principal.Claims);
+
+			return Ok(new { token = newJwtToken });
+		}
 
 		private async Task<UserModel> GetClaimsIdentity(string userName, string password)
 		{
