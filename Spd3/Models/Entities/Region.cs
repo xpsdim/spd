@@ -8,6 +8,8 @@ namespace Spd3.Models.Entities
 
 		public string Name { get; set; }
 
+		public int Order { get; set; }
+
 		public virtual ICollection<TaxInspection> TaxInspections { get; set; }
     }
 }

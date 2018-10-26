@@ -73,16 +73,17 @@ namespace Spd.Controllers
 		{
 			var tokenValidationParameters = new TokenValidationParameters
 			{
-				ValidateAudience = true,
-				ValidateIssuer = true,
+				ValidateAudience = false,
+				ValidateIssuer = false,
 				ValidateIssuerSigningKey = true,
+				
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
 				ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
 			};
 
 			var tokenHandler = new JwtSecurityTokenHandler();
 			SecurityToken securityToken;
-			var principal = tokenHandler.ValidateToken(model.Token, tokenValidationParameters, out securityToken);
+			var principal = tokenHandler.ValidateToken(model.ExpiredToken, tokenValidationParameters, out securityToken);
 			var jwtSecurityToken = securityToken as JwtSecurityToken;
 			if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
 				throw new SecurityTokenException("Invalid token");

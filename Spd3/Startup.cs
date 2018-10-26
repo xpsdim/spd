@@ -129,7 +129,7 @@ namespace Spd3
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-			
+			app.UseHttpsRedirection();
 
 			app.UseSpa(spa =>
             {

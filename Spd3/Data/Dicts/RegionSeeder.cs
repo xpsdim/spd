@@ -35,7 +35,8 @@ namespace Spd3.Data.Dicts
 						var values = line.Split(':');
 						result.Add(new Region() {
 							Id = Convert.ToInt16(values[0].Trim()),
-							Name = values[1].Trim()
+							Name = values[1].Trim(),
+							Order = Convert.ToInt16(values[2].Trim()),
 						});
 					}
 				}

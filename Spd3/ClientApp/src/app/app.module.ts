@@ -9,8 +9,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { AccountModule } from './account/account.module';
 import { HttpModule } from '@angular/http';
-import { ProfileFormComponent } from './profile-form/profile-form.component';
-import { ProfileModule } from './profile-form/profile-form.module';
+import { ChangePasswordFormComponent } from './profile/change-password/change-pass.component';
+import { ProfileModule } from './profile/profile.module';
 import { ApiRequestOptions } from './shared/utils/api.request.options';
 
 
@@ -19,7 +19,7 @@ import { ApiRequestOptions } from './shared/utils/api.request.options';
     AppComponent,
     NavMenuComponent,
     HomeComponent,    
-    ProfileFormComponent    
+    ChangePasswordFormComponent    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +30,7 @@ import { ApiRequestOptions } from './shared/utils/api.request.options';
     ProfileModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'profile', component: ProfileFormComponent }      
+      { path: 'profile', component: ChangePasswordFormComponent }      
     ])
   ],
   providers: [HttpClientModule,

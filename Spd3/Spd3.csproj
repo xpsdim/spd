@@ -38,12 +38,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\facebook-login.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\src\app\shared\models\change.password.ts" />
     <None Remove="ClientApp\src\app\shared\services\profile.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Spd.Test.csproj" />
+    <None Include="wwwroot\facebook-login.png" />
   </ItemGroup>
 
   <ItemGroup>
